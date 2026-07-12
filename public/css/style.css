@@ -1,0 +1,408 @@
+/* ===========================================================
+   SkillSwap - style.css
+   Theme: "Deep Ocean Fantasy + Modern Glassmorphism" (Cinematic)
+   Animations & effects (loaded as a public asset).
+   Tailwind handles base layout; this file adds the living
+   underwater atmosphere, glassmorphism and motion.
+   =========================================================== */
+
+:root {
+    --ss-gradient-from: #22d3ee;
+    --ss-gradient-via:  #38bdf8;
+    --ss-gradient-to:   #2dd4bf;
+
+    --ss-ocean-1: #003b5c;
+    --ss-ocean-2: #002b4f;
+    --ss-ocean-3: #00111f;
+    --ss-ocean-4: #001026;
+}
+
+/* ===================== Ocean container + depth layers ===================== */
+.ss-ocean {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Each layer can be parallax-shifted by JS (cheap transform). */
+.ss-layer {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+}
+
+.ss-ocean-base {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(120% 70% at 50% -14%, rgba(56, 189, 248, 0.32) 0%, rgba(0, 59, 92, 0) 46%),
+        linear-gradient(180deg,
+            var(--ss-ocean-1) 0%,
+            var(--ss-ocean-2) 28%,
+            var(--ss-ocean-3) 68%,
+            var(--ss-ocean-4) 100%);
+}
+
+/* ===================== Moving god-rays (sunlight through water) ===================== */
+.ss-light-rays {
+    position: absolute;
+    top: -15%;
+    left: -20%;
+    width: 140%;
+    height: 85%;
+    background:
+        repeating-linear-gradient(101deg,
+            rgba(125, 211, 252, 0) 0px,
+            rgba(125, 211, 252, 0) 50px,
+            rgba(186, 230, 253, 0.12) 84px,
+            rgba(125, 211, 252, 0) 120px),
+        repeating-linear-gradient(99deg,
+            rgba(125, 211, 252, 0) 0px,
+            rgba(224, 242, 254, 0.08) 160px,
+            rgba(125, 211, 252, 0) 230px);
+    filter: blur(7px);
+    transform-origin: top center;
+    mix-blend-mode: screen;
+    animation: ss-rays 16s ease-in-out infinite alternate;
+}
+
+/* Caustic light shimmer near the surface */
+.ss-caustics {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(40% 30% at 20% 0%, rgba(125, 211, 252, 0.18), transparent 60%),
+        radial-gradient(35% 25% at 60% 5%, rgba(56, 189, 248, 0.16), transparent 60%),
+        radial-gradient(30% 22% at 85% 0%, rgba(186, 230, 253, 0.14), transparent 60%);
+    background-size: 200% 200%;
+    mix-blend-mode: screen;
+    animation: ss-caustics 22s ease-in-out infinite alternate;
+}
+
+.ss-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(130% 100% at 50% 0%, transparent 36%, rgba(0, 8, 20, 0.62) 100%);
+}
+
+/* ===================== Glowing plankton particles ===================== */
+.ss-plankton {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(186, 230, 253, 0.95) 0%, rgba(56, 189, 248, 0.35) 45%, transparent 70%);
+    box-shadow: 0 0 6px rgba(125, 211, 252, 0.8);
+    animation: ss-plankton-rise linear infinite;
+}
+
+/* ===================== Rising bubbles ===================== */
+.ss-bubble {
+    position: absolute;
+    bottom: -24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.9), rgba(125, 211, 252, 0.25) 60%, transparent 72%);
+    border: 1px solid rgba(186, 230, 253, 0.4);
+    animation-name: ss-bubble-rise;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+}
+
+/* ===================== Fish (natural undulating swim) ===================== */
+.ss-fish {
+    position: absolute;
+    color: #7dd3fc;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.5));
+    animation: ss-swim 34s linear infinite;
+}
+.ss-fish-1 { top: 18%; left: 0; width: 78px; animation-duration: 38s; }
+.ss-fish-2 { top: 42%; left: 0; width: 58px; animation-duration: 30s; animation-delay: 3s; animation-name: ss-swim-left; color: #67e8f9; }
+.ss-fish-3 { top: 64%; left: 0; width: 50px; animation-duration: 27s; animation-delay: 6s; color: #5eead4; }
+.ss-fish-4 { top: 30%; left: 0; width: 66px; animation-duration: 33s; animation-delay: 11s; animation-name: ss-swim-left; color: #7dd3fc; }
+.ss-fish-5 { top: 76%; left: 0; width: 44px; animation-duration: 24s; animation-delay: 9s; opacity: 0.8; }
+
+/* Far, blurred silhouettes */
+.ss-fish-far {
+    position: absolute;
+    width: 140px;
+    color: #0e7490;
+    opacity: 0.16;
+    filter: blur(2.5px);
+    animation: ss-swim-far 64s linear infinite;
+}
+.ss-fish-far-1 { top: 36%; left: 0; }
+.ss-fish-far-2 { top: 70%; left: 0; animation-duration: 82s; animation-delay: 14s; }
+
+/* Cute, brightly coloured fish (tail wags gently) */
+.ss-fish-cute {
+    position: absolute;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
+    animation: ss-swim 30s linear infinite;
+}
+.ss-fish-cute .ss-tail {
+    transform-box: fill-box;
+    transform-origin: 100% 50%;
+    animation: ss-tail-wag 0.6s ease-in-out infinite;
+}
+.ss-fish-cute-1 { top: 22%; left: 0; width: 88px; animation-duration: 35s; }
+.ss-fish-cute-2 { top: 50%; left: 0; width: 62px; animation-duration: 28s; animation-delay: 4s; animation-name: ss-swim-left; }
+.ss-fish-cute-3 { top: 70%; left: 0; width: 72px; animation-duration: 32s; animation-delay: 8s; }
+.ss-fish-cute-4 { top: 36%; left: 0; width: 50px; animation-duration: 24s; animation-delay: 2s; animation-name: ss-swim-left; opacity: 0.6; }
+
+/* ===================== Jellyfish ===================== */
+.ss-jelly {
+    position: absolute;
+    color: #a5f3fc;
+    opacity: 0.55;
+    filter: drop-shadow(0 0 10px rgba(103, 232, 249, 0.6));
+    animation: ss-jelly 7s ease-in-out infinite;
+}
+.ss-jelly-1 { top: 26%; left: 14%; width: 48px; }
+.ss-jelly-2 { top: 54%; left: 74%; width: 34px; animation-duration: 9s; animation-delay: 1.5s; }
+.ss-jelly-3 { top: 80%; left: 40%; width: 28px; animation-duration: 8s; animation-delay: 3s; opacity: 0.4; }
+
+/* ===================== Sea floor ===================== */
+.ss-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; }
+
+.ss-seaweed {
+    position: absolute;
+    bottom: 0;
+    color: #0f766e;
+    opacity: 0.5;
+    transform-origin: bottom center;
+    animation: ss-sway 6s ease-in-out infinite;
+}
+.ss-seaweed-1 { left: 5%;  height: 130px; width: 42px; }
+.ss-seaweed-2 { left: 90%; height: 150px; width: 42px; animation-delay: 1.6s; }
+
+.ss-coral { position: absolute; bottom: 0; width: 96px; color: #fb7185; opacity: 0.4; }
+.ss-coral-1 { left: -6px; }
+.ss-coral-2 { right: -6px; transform: scaleX(-1); }
+
+.ss-starfish {
+    position: absolute;
+    bottom: 26px;
+    left: 47%;
+    width: 52px;
+    color: #fbbf24;
+    opacity: 0.5;
+    transform: rotate(-12deg);
+}
+
+/* ===================== Keyframes ===================== */
+@keyframes ss-bubble-rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 0.8; }
+    50%  { transform: translateY(-52vh) translateX(14px); }
+    100% { transform: translateY(-106vh) translateX(-10px); opacity: 0; }
+}
+
+@keyframes ss-swim {
+    0%   { transform: translate(-16vw, 0) rotate(0deg); }
+    25%  { transform: translate(20vw, -14px) rotate(-2.5deg); }
+    50%  { transform: translate(50vw, 2px) rotate(0deg); }
+    75%  { transform: translate(80vw, -14px) rotate(2.5deg); }
+    100% { transform: translate(116vw, 0) rotate(0deg); }
+}
+
+@keyframes ss-swim-left {
+    0%   { transform: translate(116vw, 0) scaleX(-1) rotate(0deg); }
+    25%  { transform: translate(80vw, -14px) scaleX(-1) rotate(-2.5deg); }
+    50%  { transform: translate(50vw, 2px) scaleX(-1) rotate(0deg); }
+    75%  { transform: translate(20vw, -14px) scaleX(-1) rotate(2.5deg); }
+    100% { transform: translate(-16vw, 0) scaleX(-1) rotate(0deg); }
+}
+
+@keyframes ss-swim-far {
+    from { transform: translateX(-22vw); }
+    to   { transform: translateX(122vw); }
+}
+
+@keyframes ss-tail-wag {
+    0%, 100% { transform: rotate(-10deg); }
+    50%      { transform: rotate(10deg); }
+}
+
+@keyframes ss-jelly {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-24px) scale(1.06, 0.94); }
+}
+
+@keyframes ss-sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50%      { transform: rotate(5deg); }
+}
+
+@keyframes ss-rays {
+    from { transform: translateX(-4%) rotate(-3deg); opacity: 0.5; }
+    to   { transform: translateX(4%)  rotate(3deg);  opacity: 0.95; }
+}
+
+@keyframes ss-caustics {
+    0%   { transform: translateX(-3%) translateY(0); opacity: 0.7; }
+    100% { transform: translateX(3%) translateY(-2%); opacity: 1; }
+}
+
+@keyframes ss-plankton-rise {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    15%  { opacity: 0.9; }
+    50%  { transform: translateY(-45vh) translateX(10px); opacity: 0.7; }
+    85%  { opacity: 0.9; }
+    100% { transform: translateY(-100vh) translateX(-8px); opacity: 0; }
+}
+
+/* ===================== Shared motion utilities ===================== */
+@keyframes ss-fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ss-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes ss-float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-14px); }
+    100% { transform: translateY(0); }
+}
+@keyframes ss-gradient {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes ss-pulse-ring {
+    0%   { transform: scale(0.8); opacity: 0.7; }
+    80%, 100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes ss-shimmer {
+    100% { transform: translateX(100%); }
+}
+@keyframes ss-card-sheen {
+    to { background-position: 220% 0%, 0 0, 0 0; }
+}
+
+.ss-animate-fade-up { animation: ss-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.ss-animate-fade-in { animation: ss-fade-in 0.8s ease both; }
+.ss-float { animation: ss-float 6s ease-in-out infinite; }
+.ss-float-slow { animation: ss-float 9s ease-in-out infinite; }
+
+.ss-gradient-text {
+    background-image: linear-gradient(90deg, var(--ss-gradient-from), var(--ss-gradient-via), var(--ss-gradient-to), var(--ss-gradient-from));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: ss-gradient 8s ease infinite;
+}
+.ss-gradient-bg {
+    background-image: linear-gradient(120deg, var(--ss-gradient-from), var(--ss-gradient-via), var(--ss-gradient-to));
+    background-size: 200% 200%;
+    animation: ss-gradient 10s ease infinite;
+}
+
+.ss-stagger > * {
+    opacity: 0;
+    animation: ss-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.ss-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.ss-stagger > *:nth-child(2) { animation-delay: 0.12s; }
+.ss-stagger > *:nth-child(3) { animation-delay: 0.19s; }
+.ss-stagger > *:nth-child(4) { animation-delay: 0.26s; }
+.ss-stagger > *:nth-child(5) { animation-delay: 0.33s; }
+.ss-stagger > *:nth-child(6) { animation-delay: 0.40s; }
+.ss-stagger > *:nth-child(7) { animation-delay: 0.47s; }
+.ss-stagger > *:nth-child(8) { animation-delay: 0.54s; }
+
+/* ===================== Premium futuristic glassmorphism ===================== */
+.ss-glass {
+    position: relative;
+    background-image:
+        linear-gradient(115deg, transparent 35%, rgba(186, 230, 253, 0.12) 50%, transparent 65%),
+        linear-gradient(160deg, rgba(56, 189, 248, 0.12), rgba(8, 30, 52, 0.38) 60%),
+        rgba(8, 30, 52, 0.42);
+    background-size: 250% 250%, 100% 100%, 100% 100%;
+    background-position: 0% 0%, 0 0, 0 0;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(125, 211, 252, 0.28);
+    border-radius: 1rem;
+    box-shadow:
+        0 10px 34px rgba(0, 10, 25, 0.55),
+        inset 0 1px 0 rgba(186, 230, 253, 0.28),
+        inset 0 0 26px rgba(34, 211, 238, 0.06);
+    animation: ss-card-sheen 11s linear infinite;
+}
+
+.ss-glass-light {
+    position: relative;
+    background-image:
+        linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.35) 50%, transparent 62%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(224, 242, 254, 0.82) 60%);
+    background-size: 250% 250%, 100% 100%;
+    background-position: 0% 0%, 0 0;
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    border-radius: 1rem;
+    box-shadow: 0 0 55px rgba(34, 211, 238, 0.28), 0 14px 44px rgba(0, 20, 40, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    animation: ss-card-sheen 12s linear infinite;
+}
+
+.ss-glow { box-shadow: 0 0 40px rgba(34, 211, 238, 0.35); }
+.ss-border-cyan { border-color: rgba(56, 189, 248, 0.4) !important; }
+
+.ss-card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.ss-card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 50px rgba(34, 211, 238, 0.45), inset 0 1px 0 rgba(186, 230, 253, 0.35);
+    border-color: rgba(125, 211, 252, 0.6);
+}
+
+.ss-ping {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background-color: #34d399;
+    animation: ss-pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.ss-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+.ss-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: ss-shimmer 1.6s infinite;
+}
+
+.ss-scroll::-webkit-scrollbar { width: 6px; }
+.ss-scroll::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.4); border-radius: 9999px; }
+.ss-scroll::-webkit-scrollbar-track { background: transparent; }
+
+.ss-btn-primary {
+    background-image: linear-gradient(120deg, #22d3ee, #38bdf8, #2dd4bf);
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.ss-btn-primary:hover {
+    background-position: 100% 50%;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px -8px rgba(56, 189, 248, 0.7);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
