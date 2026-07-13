@@ -32,11 +32,11 @@
                             </div>
                             <p class="mt-4 text-sm text-cyan-100/80">{{ $skill->description }}</p>
                             <div class="mt-5 flex gap-3">
-                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm rounded-lg">Edit</a>
-                                <form method="POST" action="{{ route('skills.destroy', $skill) }}" onsubmit="return confirm('Hapus skill ini?')">
+                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm" style="display:inline-block;background-color:#f59f00;color:#fff;border:none;padding:.25rem .5rem;font-size:.875rem;border-radius:.375rem;text-decoration:none;cursor:pointer;">Edit</a>
+                                <form action="{{ route('skills.destroy', $skill) }}" method="POST" onsubmit="return confirm('Hapus skill ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-sm rounded-lg">Hapus</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" style="display:inline-block;background-color:#dc3545;color:#fff;border:none;padding:.25rem .5rem;font-size:.875rem;border-radius:.375rem;cursor:pointer;" onclick="return confirm('Hapus skill ini?')">Hapus</button>
                                 </form>
                             </div>
                         </div>
@@ -71,11 +71,11 @@
                             </div>
                             <p class="mt-4 text-sm text-cyan-100/80">{{ $skill->description }}</p>
                             <div class="mt-5 flex gap-3">
-                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm rounded-lg">Edit</a>
-                                <form method="POST" action="{{ route('skills.destroy', $skill) }}" onsubmit="return confirm('Hapus skill ini?')">
+                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm" style="display:inline-block;background-color:#f59f00;color:#fff;border:none;padding:.25rem .5rem;font-size:.875rem;border-radius:.375rem;text-decoration:none;cursor:pointer;">Edit</a>
+                                <form action="{{ route('skills.destroy', $skill) }}" method="POST" onsubmit="return confirm('Hapus skill ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-sm rounded-lg">Hapus</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" style="display:inline-block;background-color:#dc3545;color:#fff;border:none;padding:.25rem .5rem;font-size:.875rem;border-radius:.375rem;cursor:pointer;" onclick="return confirm('Hapus skill ini?')">Hapus</button>
                                 </form>
                             </div>
                         </div>
