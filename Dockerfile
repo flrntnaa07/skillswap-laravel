@@ -2,8 +2,8 @@ FROM php:8.2-apache
 
 # Install dependencies sistem
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip nodejs npm libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Aktifkan mod_rewrite Apache (wajib buat Laravel)
 RUN a2enmod rewrite
