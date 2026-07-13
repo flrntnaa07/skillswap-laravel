@@ -32,11 +32,11 @@
                             </div>
                             <p class="mt-4 text-sm text-cyan-100/80">{{ $skill->description }}</p>
                             <div class="mt-5 flex gap-3">
-                                <a href="{{ route('skills.edit', $skill) }}" class="px-3 py-1.5 rounded-lg text-sm text-cyan-200 border border-cyan-300/30 hover:bg-white/5 transition">Edit</a>
+                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm rounded-lg">Edit</a>
                                 <form method="POST" action="{{ route('skills.destroy', $skill) }}" onsubmit="return confirm('Hapus skill ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="px-3 py-1.5 rounded-lg text-sm text-rose-300 border border-rose-400/30 hover:bg-rose-500/10 transition">Hapus</button>
+                                    <button class="btn btn-danger btn-sm rounded-lg">Hapus</button>
                                 </form>
                             </div>
                         </div>
@@ -71,11 +71,11 @@
                             </div>
                             <p class="mt-4 text-sm text-cyan-100/80">{{ $skill->description }}</p>
                             <div class="mt-5 flex gap-3">
-                                <a href="{{ route('skills.edit', $skill) }}" class="px-3 py-1.5 rounded-lg text-sm text-cyan-200 border border-cyan-300/30 hover:bg-white/5 transition">Edit</a>
+                                <a href="{{ route('skills.edit', $skill) }}" class="btn btn-warning btn-sm rounded-lg">Edit</a>
                                 <form method="POST" action="{{ route('skills.destroy', $skill) }}" onsubmit="return confirm('Hapus skill ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="px-3 py-1.5 rounded-lg text-sm text-rose-300 border border-rose-400/30 hover:bg-rose-500/10 transition">Hapus</button>
+                                    <button class="btn btn-danger btn-sm rounded-lg">Hapus</button>
                                 </form>
                             </div>
                         </div>
